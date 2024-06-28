@@ -26,6 +26,17 @@ public class NavigationUtil {
         UtilsSet.clickOnElement(Constants.Learn.By_LectureTab);
 
     }
+    public static void clickTopicTab() {
+        // Use appropriate locator for the "Learn" button
+
+        UtilsSet.clickOnElement(Constants.Learn.By_TopicTab, "Topic Tab is not Clickable");
+
+    }public static void clickAssignmentTab() {
+        // Use appropriate locator for the "Learn" button
+
+        UtilsSet.clickOnElement(Constants.Learn.By_AssignmentTab, "Assignemnt Tab is not Clickable");
+
+    }
 
     @Step("Clicking on the Due Exame button.")
     public static void clickDueExameButton() {

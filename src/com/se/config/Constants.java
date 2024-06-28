@@ -72,15 +72,15 @@ public class Constants {
         public static By BY_navCourses = By.xpath("//*[@id='nav_Courses']/div/div/div/div/header/div[1]/h4[1]");
         public static By By_specificNameOfCourseAsTitle = By.xpath("//*[@id=\"body\"]/div[2]/div[1]/h2");
         public static By By_subTabsParent = By.xpath("/html/body/div[4]/div[3]/div[5]/div");
-        public static By By_LectureTab = By.xpath("//*[@id=\"tab3\"]");
+        public static By By_LectureTab = By.xpath("/html/body/div[4]/div[3]/div[5]/div/a[3]");
+        public static By By_TopicTab = By.xpath("/html/body/div[4]/div[3]/div[5]/div/a[4]");
+        public static By By_AssignmentTab = By.xpath("/html/body/div[4]/div[3]/div[5]/div/a[5]");
         public static By By_subLecturesParent = By.xpath("//*[@id=\"lecturesMenu\"]/div");
-        public static By By_subLecTitles = By.xpath("//*[@id=\"Introduction\"]");
+
 
     }
 
-    public static class learing{
-        public static final By by_learning = By.xpath("//*[@id=\"header\"]/div[2]/div/div/div[2]/a[1]");
-    }
+
 
     public static class DueExame {
         public static final By BY_dueExameButton = By.xpath("//*[@id='Student']/div[1]/div[2]/div/div/a[3]");

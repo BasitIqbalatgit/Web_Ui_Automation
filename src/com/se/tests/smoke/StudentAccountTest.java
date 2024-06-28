@@ -12,6 +12,12 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+
 public class StudentAccountTest extends StudentLoginBase {
 
     @Test(priority = 1)
@@ -145,32 +151,66 @@ public class StudentAccountTest extends StudentLoginBase {
         }
     }
 
-//    @Test(dependsOnMethods = "verifyLecturesAreAccessible", priority = 6)
-//    public void verifyLectureContentAreAccessible() {
-//        System.out.println("Starting verifyLectureContentAreAccessible test");
-//
-//        try {
-//            // Find all child elements under the parentXPath
-//            List<WebElement> childElements = UtilsSet.findChildElements(Constants.Learn.By_subLecturesParent);
-//
-//            // Check each child element for clickability and validate the lecture content
-//            for (WebElement element : childElements) {
-//                UtilsSet.clickOnElement((By) element);
-//
-//                String dynamicPath = "//*[@id='" + element.getText() + "']";
-//                String actualTitle = UtilsSet.getElementText(By.xpath(dynamicPath));
-//
-//                Assert.assertEquals(actualTitle, element.getText(), "Mismatch Lecture Titles");
-//            }
-//
-//            System.out.println("verifyLectureContentAreAccessible test completed successfully");
-//        } catch (Exception e) {
-//            System.err.println("Failed to verify if lectures content are accessible: " + e.getMessage());
-//            e.printStackTrace();  // Log the full stack trace
-//            Assert.fail("Failed to verify if lectures content are accessible", e);
-//        }
-//    }
-    @Test(priority = 6)
+    @Test(dependsOnMethods = "verifyNavigationToSpecificCourse", priority = 6)
+    public void verifyTopicTabHasSubTabsWhichAreAccessible() {
+        System.out.println("Starting verifyTopicTabHasSubTabsWhichAreAccessible test");
+        NavigationUtil.clickTopicTab();
+
+        By topicTitle = By.xpath("/html/body/div[4]/div[3]/div[6]/div/div[3]/div[2]/div[2]/div[2]/div/div/div/h4");
+        UtilsSet.waitForElementToBeVisible(topicTitle, 30);
+
+        try {
+            // Find all child elements under the parentXPath
+            By path = By.xpath("/html/body/div[4]/div[3]/div[6]/div/div[3]/div[2]/div[3]/div[1]");
+            List<WebElement> childElements = UtilsSet.findChildElements(path);
+
+            boolean allClickable = true;
+
+            // Check each child element for clickability
+            for (WebElement element : childElements) {
+                boolean clickable = UtilsSet.isElementClickable(element);
+                String clickableStatus = clickable ? "clickable" : "not clickable";
+                System.out.println(element.getText() + "' is " + clickableStatus);
+                allClickable = allClickable && clickable;
+            }
+
+            Assert.assertTrue(allClickable, "Not all tabs are clickable");
+
+            System.out.println("verifyTopicTabHasSubTabsWhichAreAccessible test completed successfully");
+        } catch (Exception e) {
+            System.err.println("Failed to verify if tabs are clickable: " + e.getMessage());
+            Assert.fail("Failed to verify if tabs are clickable", e);
+        }
+    }
+
+
+
+    @Test(dependsOnMethods = "verifyStudentIsLoggedIn", priority = 7)
+    public void verifyDetailOfAssignemnt() {
+        System.out.println("Starting verifyDetailOfAssignemnt test");
+        NavigationUtil.clickAssignmentTab();
+        System.out.println("Assignment Tab button is clicked");
+
+        try {
+            int timeoutSeconds = 27;
+            By path = By.xpath("//*[@id=\"subjectdetailsdiv\"]/div/div[5]/table/tbody/tr[2]/td[2]/span[1]");
+            UtilsSet.clickOnElement(path);
+            By path2 = By.xpath("/html/body/div[4]/div[3]/div[6]/div/div[5]/table/tbody/tr[3]/td/div/div[1]/div[1]/h3");
+
+            UtilsSet.waitForElementToBeVisible(path2, timeoutSeconds);
+
+            String detailText = UtilsSet.getElementText(path2);
+            String titleText = "Details for - " + UtilsSet.getElementText(path);
+
+            Assert.assertEquals(detailText, titleText, "Mismatch title and detail page");
+            System.out.println("verifyDetailOfAssignemnt test completed successfully");
+        } catch (Exception e) {
+            System.err.println("The verifyDetailOfAssignemnt was not found or did not behave as expected.");
+            Assert.fail("The verifyDetailOfAssignemnt was not found or did not behave as expected.", e);
+        }
+    }
+
+    @Test(priority = 8)
     public void verifyWelcomeToTrainStudent() {
         System.out.println("Starting verifyWelcomeToTrainStudent test");
         // Implement this test method as needed
